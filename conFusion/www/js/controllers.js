@@ -63,6 +63,28 @@ angular.module('conFusion.controllers', [])
             $scope.registerform.show();
 
         };
+
+        var optionsSelect = {
+          quality: 50,
+          destinationType: Camera.DestinationType.DATA_URL,
+          sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+          allowEdit: true,
+          encodingType: Camera.EncodingType.JPEG,
+          targetWidth: 100,
+          targetHeight: 100,
+          popoverOptions: CameraPopoverOptions,
+          saveToPhotoAlbum: false
+        };
+         $scope.selectPicture = function() {
+            $cordovaCamera.getPicture(optionsSelect).then(function(imageData) {
+                $scope.registration.imgSrc = "data:image/jpeg;base64," + imageData;
+            }, function(err) {
+                console.log(err);
+            });
+
+            $scope.registerform.show();
+
+        };
     });
 
   // Create the login modal that we will use later
