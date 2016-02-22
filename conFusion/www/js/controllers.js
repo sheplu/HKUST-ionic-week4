@@ -254,9 +254,9 @@ angular.module('conFusion.controllers', [])
 }])
 
 .controller('DishDetailController', ['$scope', '$stateParams', 'dish',
-'menuFactory', 'favoriteFactory', 'baseURL', '$ionicPopover', '$ionicModal',
+'menuFactory', 'favoriteFactory', 'baseURL', '$ionicPopover', '$ionicModal', '$ionicPlatform', '$cordovaLocalNotification', '$cordovaToast',
 function ($scope, $stateParams, dish, menuFactory, favoriteFactory, baseURL,
-  $ionicPopover, $ionicModal) {
+  $ionicPopover, $ionicModal, $ionicPlatform, $cordovaLocalNotification, $cordovaToast) {
 
     $scope.baseURL = baseURL;
     $scope.dish = dish;
@@ -277,6 +277,26 @@ function ($scope, $stateParams, dish, menuFactory, favoriteFactory, baseURL,
     $scope.addFavorite = function (index) {
         favoriteFactory.addToFavorites($scope.dish.id);
         $scope.popover.hide();
+        $ionicPlatform.ready(function () {
+                $cordovaLocalNotification.schedule({
+                    id: 1,
+                    title: "Added Favorite",
+                    text: $scope.dish.name
+                }).then(function () {
+                    console.log('Added Favorite '+$scope.dish.name);
+                },
+                function () {
+                    console.log('Failed to add Notification ');
+                });
+
+                $cordovaToast
+                  .show('Added Favorite '+$scope.dish.name, 'long', 'bottom')
+                  .then(function (success) {
+                      // success
+                  }, function (error) {
+                      // error
+                  });
+        });
     }
 
     $scope.commentData = {};
