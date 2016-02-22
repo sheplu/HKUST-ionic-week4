@@ -27,7 +27,8 @@
       "id": "cordova-plugin-x-toast"
     },
     "cordova-plugin-camera",
-    "org.apache.cordova.camera"
+    "org.apache.cordova.camera",
+    "cordova-plugin-vibration"
   ],
   "cordovaPlatforms": [
     "android"
